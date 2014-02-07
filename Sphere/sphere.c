@@ -4,6 +4,7 @@
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
 #include <X11/Xatom.h>
+#include <X11/keysym.h>
 #include <math.h>
 /* open GL includes*/
 #include <GL/gl.h>
@@ -15,60 +16,57 @@
 Display *dpy;
 Window win,root_win;
 XWindowAttributes winattr;
+XEvent event;
 
-void DrawSphere(void)
-{
-	
-	//angle = 2;
-	float angle1,angle2;
-	float x,y,z,x2,y2,z2;
+float ytranslate = 0.25;
+float xtranslate = 0.0;  
+float ztranslate =0.0;
 
-	// preparing the window to draw
-	XGetWindowAttributes(dpy,win,&winattr);
-	glViewport(0,0,winattr.width, winattr.height);// setting up the view port
 
-	glClearColor(0.7f,0.7f,0.7f,0.0f);// controls the background color
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glColor3f(0.0f,0.02f,0.7f); // color the inside of the sphere
-	glPushMatrix();
-	glRotatef(angle,1.0,1.0,0.0);
 
-	for(angle2= -3.14162/2; angle2<= 3.14162/2; angle2+=RESOLUTION)
-	{
-		// specify the beginning of drawing the sphere
-		glBegin(GL_QUAD_STRIP);
-
-		for(angle1 =0.0;angle1<=3.1416;angle1+=RESOLUTION)
-		{
-
-			y=sin(angle2);
-			x=cos(angle1)*cos(angle2);
-			z=sin(angle2)*cos(angle2);
-
-			y2=sin(angle2 + RESOLUTION);
-			x2=cos(angle1)*cos(angle2+RESOLUTION);
-			z2=sin(angle2)*cos(angle2+ RESOLUTION);
-			glColor3f(z*z,x*x,0.0f);
-			glVertex3f(x,y,z);
-			glVertex3f(x2,y2,z2);	
-			//glVertex3f(0.5f,0.5f,0.0f);
-		}
-		glEnd();// end of drawing SPHERE
-	}
-
-	glPopMatrix();
-	glXSwapBuffers(dpy,win);// Set BUffer
-
-	
-
-}
+void createWindow();
+void DrawSphere(void);
+void keyPressFunc(void);
 
 int main(int argc, char *argv[])
 {
 
+	createWindow();
+
 	
+	
+	while(1)
+	{
+		if(XPending(dpy)==0)
+		{
+			DrawSphere();
+			continue;
+		}
+		XNextEvent(dpy, &event);
+		if(event.type == Expose)
+		{
+			//DrawSphere();
+				
+		}
+
+		if(event.type == KeyPress)
+		{
+			XDestroyWindow(dpy, win);
+			XCloseDisplay(dpy);
+			break;
+
+		}
+	}
+
+
+
+	return 0;
+
+};
+void createWindow()
+{
 	int screen;
-	XEvent event;
+	
 	unsigned int depth;
 	XSetWindowAttributes attrs;
 	int true = 1;
@@ -115,26 +113,81 @@ int main(int argc, char *argv[])
 	glc = glXCreateContext(dpy,visual,NULL,GL_TRUE);
 	glXMakeCurrent(dpy, win, glc);
 	glEnable(GL_DEPTH_TEST);
-	while(1)
+	
+};
+
+void DrawSphere(void)
+{
+	
+	static int angle;
+	float angle1,angle2;
+	float x,y,z,x2,y2,z2;
+
+	// preparing the window to draw
+	XGetWindowAttributes(dpy,win,&winattr);
+	glViewport(0,0,winattr.width, winattr.height);// setting up the view port
+
+	glClearColor(0.7f,0.7f,0.7f,0.0f);// controls the background color
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glColor3f(0.0f,0.02f,0.7f); // color the inside of the sphere
+	glPushMatrix();
+	//glTranslatef(xtranslate, ytranslate, ztranslate);
+	//glRotatef(angle, 1.0 , 1.0 ,0.0);
+
+	for(angle2 = -3.1416/2 ; angle2 <= 3.1416/2; angle2 += RESOLUTION)
 	{
-		XNextEvent(dpy, &event);
-		if(event.type == Expose)
-		{
-			DrawSphere();
-				
-		}
+		// specify the beginning of drawing the sphere
+		glBegin(GL_QUAD_STRIP);
 
-		if(event.type == KeyPress)
+		for(angle1 =0.0; angle1 <= 3.1416*2.0+RESOLUTION ;angle1 += RESOLUTION)
 		{
-			XDestroyWindow(dpy, win);
-			XCloseDisplay(dpy);
-			break;
 
+			y=sin(angle2);
+			x=cos(angle1)*cos(angle2);
+			z=sin(angle2)*cos(angle2);
+
+			y2=sin(angle2 + RESOLUTION);
+			x2=cos(angle1)*cos(angle2 + RESOLUTION);
+			z2=sin(angle2)*cos(angle2 + RESOLUTION);
+
+			glColor3f(z*z,x*x,1.0f);
+			glVertex3f(x,y,z);
+			glVertex3f(x2,y2,z2);	
+			
 		}
+		glEnd();// end of drawing SPHERE
 	}
 
+	glPopMatrix();
+	glXSwapBuffers(dpy,win);// Set BUffer
 
+	usleep(5000);
 
-	return 0;
+	angle+=1;
+	if(angle == 360)
+		angle = 0;
+
+	//glFlush();
+
 
 };
+
+void keyPressFunc()
+{
+/*
+	  
+   if(event.type == KeyPress)
+    char buffer[31];
+    KeySym keysym;
+    XLookupString(&xev.xkey,buffer,30,&keysym,NULL);
+    if(keysym==XK_ESCAPE)
+         XDestroyWindow(dpy, win);
+	 XCloseDisplay(dpy);
+    if(keysym==XK_Right)
+	{
+         xtranslate +=0.25;
+	}
+
+	*/
+
+}
