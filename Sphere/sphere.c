@@ -13,13 +13,13 @@
 #define RESOLUTION 0.05
 
 // TUTORIAL USED LINK:http://www.youtube.com/watch?v=gBlk-14SIMI
-//kEYBOARD INPUT NOT IMPLEMENTED YET WHEN ATTEMPTED ERROR RECEIVED THAT "XEV" DOESNT EXIT
 Display *dpy;
 Window win,root_win;
 XWindowAttributes winattr;
 XEvent event;
+KeySym keysym;
 
-float ytranslate = 0.25;
+float ytranslate = 0.0;
 float xtranslate = 0.0;  
 float ztranslate =0.0;
 
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 	{
 		if(XPending(dpy)==0)
 		{
-			DrawSphere();
+			//DrawSphere();
 			continue;
 		}
 		XNextEvent(dpy, &event);
@@ -52,11 +52,50 @@ int main(int argc, char *argv[])
 
 		if(event.type == KeyPress)
 		{
+			/*
 			XDestroyWindow(dpy, win);
 			XCloseDisplay(dpy);
 			break;
 
+			*/
+			char buffer[31];
+    			//KeySym keysym;
+    			XLookupString(&event.xkey,buffer,30,&keysym,NULL);
+
+			switch(keysym)
+			{
+				case XK_Right:
+					xtranslate+=0.25;
+				break;
+				case XK_Left:
+					xtranslate-=0.25;
+				break;
+				case XK_Up:
+					ytranslate+=0.25;
+				break;
+				case XK_Down:
+					ytranslate-=0.25;
+				break;
+				case XK_a: 
+				case XK_A:
+					ztranslate+=0.25;
+				break;
+				case XK_s: case XK_S:
+					ztranslate-=0.25;
+				break;
+				case XK_Escape:
+					XDestroyWindow(dpy, win);
+					XCloseDisplay(dpy);
+				break;
+	
+			}
+			
+
 		}
+
+		DrawSphere();
+
+	
 	}
 
 
@@ -132,7 +171,7 @@ void DrawSphere(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glColor3f(0.0f,0.02f,0.7f); // color the inside of the sphere
 	glPushMatrix();
-	//glTranslatef(xtranslate, ytranslate, ztranslate);
+	glTranslatef(xtranslate, ytranslate, ztranslate);
 	//glRotatef(angle, 1.0 , 1.0 ,0.0);
 
 	for(angle2 = -3.1416/2 ; angle2 <= 3.1416/2; angle2 += RESOLUTION)
