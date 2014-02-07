@@ -13,6 +13,7 @@
 #define RESOLUTION 0.05
 
 // TUTORIAL USED LINK:http://www.youtube.com/watch?v=gBlk-14SIMI
+//kEYBOARD INPUT NOT IMPLEMENTED YET WHEN ATTEMPTED ERROR RECEIVED THAT "XEV" DOESNT EXIT
 Display *dpy;
 Window win,root_win;
 XWindowAttributes winattr;
