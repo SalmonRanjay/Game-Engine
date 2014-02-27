@@ -11,16 +11,19 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 #include <iostream>
-#include <stdio.h> 
+#include <stdio.h>
+#include "CreateWindow.h" 
 using namespace std;
 
-class Triangles
+class Triangles : public CreateWindow
 {
 	public:
 	float ytranslate ;
 	float xtranslate ;  
-	float ztranslate ; 
+	float ztranslate ;
+	CreateWindow object;
+	
 	Triangles();
-	void drawTriangle();
+	void drawTriangle(CreateWindow object);
 
 };

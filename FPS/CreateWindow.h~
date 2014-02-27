@@ -1,3 +1,5 @@
+//#ifndef CREATEWINDOW_h
+//#define CREATEWINDOW_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <X11/Xlib.h>
@@ -22,23 +24,21 @@ public:
 	XWindowAttributes winattr;
 	XEvent event;
 	KeySym keysym;
+	Window root_return;
+	Window child_return;
+	int root_x_return, root_y_return;
+	int win_x_return, win_y_return;
+	unsigned int mask_return;
+	float nx, ny; 
 	
-	/*Display* getDpy()
-	{
-		return dpy;
-	};
-	*/
-	XEvent getEvent()
-	{
-		return event;
-	};
-	KeySym getksym()
-	{
-		return keysym;
-	};
+	CreateWindow();
+	
 
+	
 	void drawWindow();
 	void view();
+	void Buffer();
+	void MouseCalc();
 	
 };
-
+//#endif

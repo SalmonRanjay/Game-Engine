@@ -12,7 +12,7 @@
 #include <GL/glu.h>
 #include <iostream>
 #include <stdio.h> 
-#include "CreateWindow.h"
+//#include "CreateWindow.h"
 //#include "Sphere.h"
 #include "Triangles.h"
 
@@ -89,10 +89,11 @@ int main(int argc, char *argv[])
 
 		} else if(obj.event.type == MotionNotify)
 			{
-				XQueryPointer(obj.dpy, obj.win, &root_return, &child_return,
-				&root_x_return, &root_y_return,
-				&win_x_return, &win_y_return,
-				&mask_return);
+				XQueryPointer(obj.dpy, obj.win, &obj.root_return, &obj.child_return,
+				&obj.root_x_return, &obj.root_y_return,
+				&obj.win_x_return, &obj.win_y_return,
+				&obj.mask_return);
+				obj.MouseCalc();
 				//printf("%d, %d\n", win_x_return, win_y_return);
 			} 
 
@@ -114,7 +115,7 @@ void DrawStuff()
 	obj.view();
 	glClearColor(0.9f,0.5f,0.6f,0.0f);// controls the background color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	triangle1.drawTriangle();
+	triangle1.drawTriangle(obj);
 	obj.Buffer();
 
 };

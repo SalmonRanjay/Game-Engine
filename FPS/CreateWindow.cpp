@@ -2,8 +2,16 @@
 #include <iostream>
 
 using namespace std;
-
 	
+	/*CreateWindow:: CreateWindow()
+	{
+		root_x_return = 0.0, 
+		root_y_return = 0.0;
+		win_x_return = 0.0, 
+		win_y_return = 0.0;
+		mask_return = 0.0; 
+	
+	}; */
 void CreateWindow:: drawWindow()
 {
 	int screen;
@@ -68,4 +76,10 @@ void CreateWindow:: Buffer()
 {
 	glXSwapBuffers(dpy,win);// Set BUffer
 	usleep(5000);
+}
+
+void CreateWindow::MouseCalc()
+{
+	nx = (win_x_return*20.0/ winattr.width/2)-10.0;
+	ny = 10.0-(win_y_return *20.9/winattr.height/2);
 }
