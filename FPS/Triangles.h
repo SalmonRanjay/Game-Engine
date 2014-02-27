@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xos.h>
+#include <X11/Xatom.h>
+#include <X11/keysym.h>
+#include <math.h>
+/* open GL includes*/
+#include <GL/gl.h>
+#include <GL/glx.h>
+#include <GL/glu.h>
+#include <iostream>
+#include <stdio.h> 
+using namespace std;
+
+class Triangles
+{
+	public:
+	float ytranslate ;
+	float xtranslate ;  
+	float ztranslate ; 
+	Triangles();
+	void drawTriangle();
+
+};
