@@ -16,11 +16,16 @@
 #include "Sphere.h"
 //#include "Triangles.h"
 #include "CameraClass.h"
+#include "EnvironmentObjects.h"
+#include "Environment.h"
 
 
 
 CreateWindow obj;
 CameraClass cameraObject;
+Environment scenery;
+EnvironmentObjects envirObject;
+EnvironmentObjects envirObject2;
 //Triangles triangle1;
 Sphere sphereone;
 float lastx, lasty;
@@ -132,8 +137,8 @@ int main(int argc, char *argv[])
 				int diffy = obj.win_y_return - lasty;
 				lastx = obj.win_x_return;
 				lasty = obj.win_y_return;
-				cameraObject.xrot += (float) diffy;
-				cameraObject.yrot += (float) diffx;
+				cameraObject.xrot += (float) ( diffy );
+				cameraObject.yrot += (float) ( diffx );
 				//printf("%d, %d\n", win_x_return, win_y_return);
 			} 
 
@@ -158,7 +163,10 @@ void DrawStuff()
 	glLoadIdentity();
 	cameraObject.cameraView();
 	cameraObject.moveCamera();
-	sphereone.drawSphere(obj);
+	scenery.renderEnvironment();
+	//sphereone.drawSphere(obj);
+	envirObject.renderObject(2.0,2.0,2.0,0.0,0.0,0.0);
+	envirObject2.renderObject(6.0,6.0,6.0,15.0,5.0,5.0);
 	//triangle1.drawTriangle(obj);
 	obj.Buffer();
 
