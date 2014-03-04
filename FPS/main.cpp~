@@ -12,7 +12,7 @@
 #include <GL/glu.h>
 #include <iostream>
 #include <stdio.h> 
-#include "CreateWindow.h"
+//#include "CreateWindow.h"
 #include "Sphere.h"
 //#include "Triangles.h"
 #include "CameraClass.h"
@@ -23,6 +23,7 @@ CreateWindow obj;
 CameraClass cameraObject;
 //Triangles triangle1;
 Sphere sphereone;
+float lastx, lasty;
 void DrawStuff();
 int main(int argc, char *argv[])
 {
@@ -66,14 +67,19 @@ int main(int argc, char *argv[])
 					//sphereone.xtranslate+=0.25;
 					// Camera movement calculations
 					  	
-					  cameraObject.yrot += 1;
-    					  if (cameraObject.yrot >360) cameraObject.yrot -= 360;
+					  
+    					   float yyyrotrad;
+					    yyyrotrad = (cameraObject.yrot / 180 * 3.141592654f);
+					    cameraObject.xpos += float(cos(yyyrotrad)) * 0.2;
+					    cameraObject.zpos += float(sin(yyyrotrad)) * 0.2;
 				break;
 				case XK_Left:
 					//triangle1.xtranslate-=0.25;
 					//sphereone.xtranslate-=0.25;
-					    cameraObject.yrot -= 1;
-    					    if (cameraObject.yrot < -360) cameraObject.yrot += 360;
+						  float yyyyrotrad;
+							    yyyyrotrad = (cameraObject.yrot / 180 * 3.141592654f);
+							    cameraObject.xpos += float(cos(yyyyrotrad)) * 0.2;
+							    cameraObject.zpos += float(sin(yyyyrotrad)) * 0.2;
 				break;
 				case XK_Up:
 					//triangle1.ytranslate+=0.25;
@@ -98,9 +104,13 @@ int main(int argc, char *argv[])
 				case XK_a: 
 				case XK_A:
 					//triangle1.ztranslate+=0.25;
+					   cameraObject.xrot += 1;
+    					   if (cameraObject.xrot >360) cameraObject.xrot -= 360;
 				break;
 				case XK_s: case XK_S:
 					//triangle1.ztranslate-=0.25;
+					cameraObject.xrot -= 1;
+					if (cameraObject.xrot < -360) cameraObject.xrot += 360;
 				break;
 				case XK_Escape:
 					XDestroyWindow(obj.dpy, obj.win);
@@ -118,6 +128,12 @@ int main(int argc, char *argv[])
 				&obj.win_x_return, &obj.win_y_return,
 				&obj.mask_return);
 				obj.MouseCalc();
+				int diffx = obj.win_x_return - lastx;
+				int diffy = obj.win_y_return - lasty;
+				lastx = obj.win_x_return;
+				lasty = obj.win_y_return;
+				cameraObject.xrot += (float) diffy;
+				cameraObject.yrot += (float) diffx;
 				//printf("%d, %d\n", win_x_return, win_y_return);
 			} 
 
