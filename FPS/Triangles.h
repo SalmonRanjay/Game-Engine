@@ -15,7 +15,7 @@
 #include "CreateWindow.h" 
 using namespace std;
 
-class Triangles : public CreateWindow
+class Triangles
 {
 	public:
 	float ytranslate ;

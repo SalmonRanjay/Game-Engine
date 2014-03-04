@@ -21,6 +21,7 @@ class Triangles : public CreateWindow
 	float ytranslate ;
 	float xtranslate ;  
 	float ztranslate ;
+	CreateWindow object;
 	
 	Triangles();
 	void drawTriangle(CreateWindow object);

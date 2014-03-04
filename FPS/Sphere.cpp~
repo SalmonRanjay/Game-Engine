@@ -11,22 +11,26 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 #include <iostream>
-#include <stdio>
 #include "Sphere.h"
 using namespace std;
 
-
-void Sphere:: drawSphere()
+Sphere:: Sphere()
 {
-		// preparing the window to draw
-		/*
-		XGetWindowAttributes(dpy,win,&winattr);
-		glViewport(0,0,winattr.width, winattr.height);// setting up the view port
-		*/
-		glClearColor(0.7f,0.7f,0.7f,0.0f);// controls the background color
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	xtranslate =0; 
+	ytranslate =0; 
+	ztranslate =0;
+}
+void Sphere:: drawSphere(CreateWindow winObject)
+{
+
+		gluLookAt( 0,0,0,
+		   	  0,0,-1,
+		          0,2,0);
+		
 		//glColor3f(0.0f,0.02f,0.7f); // color the inside of the sphere
 		glPushMatrix();
+		//glTranslatef(winObject.nx, winObject.ny, 0.0f);
+		//glScalef(0.5f,0.5f,0.5f);
 		glTranslatef(xtranslate, ytranslate, ztranslate);
 		//glRotatef(angle, 1.0 , 1.0 ,0.0);
 	
@@ -64,14 +68,12 @@ void Sphere:: drawSphere()
 		}
 
 		glPopMatrix();
+		
 		/*
-		glXSwapBuffers(dpy,win);// Set BUffer
-
-		usleep(5000);
-		*/
 		angle+=1;
 		if(angle == 360)
 			angle = 0;
+		*/
 
 		//glFlush();
 }

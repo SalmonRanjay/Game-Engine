@@ -13,14 +13,16 @@
 #include <iostream>
 #include <stdio.h> 
 //#include "CreateWindow.h"
-//#include "Sphere.h"
-#include "Triangles.h"
+#include "Sphere.h"
+//#include "Triangles.h"
+#include "CameraClass.h"
 
 
 
 CreateWindow obj;
-Triangles triangle1;
-//Sphere sphereone;
+CameraClass cameraObject;
+//Triangles triangle1;
+Sphere sphereone;
 void DrawStuff();
 int main(int argc, char *argv[])
 {
@@ -60,32 +62,54 @@ int main(int argc, char *argv[])
 			switch(obj.keysym)
 			{
 				case XK_Right:
-					triangle1.xtranslate+=0.25;
+					//triangle1.xtranslate+=0.25;
+					//sphereone.xtranslate+=0.25;
+					// Camera movement calculations
+					  	
+					  cameraObject.yrot += 1;
+    					  if (cameraObject.yrot >360) cameraObject.yrot -= 360;
 				break;
 				case XK_Left:
-					triangle1.xtranslate-=0.25;
+					//triangle1.xtranslate-=0.25;
+					//sphereone.xtranslate-=0.25;
+					    cameraObject.yrot -= 1;
+    					    if (cameraObject.yrot < -360) cameraObject.yrot += 360;
 				break;
 				case XK_Up:
-					triangle1.ytranslate+=0.25;
+					//triangle1.ytranslate+=0.25;
+					//sphereone.ytranslate+=0.25;
+					    float xrotrad, yrotrad;
+					    yrotrad = (cameraObject.yrot / 180 * 3.141592654f);
+					    xrotrad = (cameraObject.xrot / 180 * 3.141592654f); 
+					    cameraObject.xpos += float(sin(yrotrad)) ;
+					    cameraObject.zpos -= float(cos(yrotrad)) ;
+					    cameraObject.ypos -= float(sin(xrotrad)) ;
 				break;
 				case XK_Down:
-					triangle1.ytranslate-=0.25;
+					//triangle1.ytranslate-=0.25;
+					//sphereone.ytranslate-=0.25;
+					   float xxrotrad, yyrotrad;
+					    yyrotrad = (cameraObject.yrot / 180 * 3.141592654f);
+					    xxrotrad = (cameraObject.xrot / 180 * 3.141592654f); 
+					    cameraObject.xpos -= float(sin(yyrotrad));
+					    cameraObject.zpos += float(cos(yyrotrad)) ;
+					    cameraObject.ypos += float(sin(xxrotrad));
 				break;
 				case XK_a: 
 				case XK_A:
-					triangle1.ztranslate+=0.25;
+					//triangle1.ztranslate+=0.25;
 				break;
 				case XK_s: case XK_S:
-					triangle1.ztranslate-=0.25;
+					//triangle1.ztranslate-=0.25;
 				break;
 				case XK_Escape:
 					XDestroyWindow(obj.dpy, obj.win);
 					XCloseDisplay(obj.dpy);
-				break;
+				break; 
 	
 	
 			}
-	
+			
 
 		} else if(obj.event.type == MotionNotify)
 			{
@@ -115,7 +139,11 @@ void DrawStuff()
 	obj.view();
 	glClearColor(0.9f,0.5f,0.6f,0.0f);// controls the background color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	triangle1.drawTriangle(obj);
+	glLoadIdentity();
+	cameraObject.cameraView();
+	cameraObject.moveCamera();
+	sphereone.drawSphere(obj);
+	//triangle1.drawTriangle(obj);
 	obj.Buffer();
 
 };

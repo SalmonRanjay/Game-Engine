@@ -80,6 +80,6 @@ void CreateWindow:: Buffer()
 
 void CreateWindow::MouseCalc()
 {
-	nx = (win_x_return*20.0/ winattr.width/2)-10.0;
-	ny = 10.0-(win_y_return *20.9/winattr.height/2);
+	nx = (win_x_return*20.0/ winattr.width)-10.0;
+	ny = 10.0-(win_y_return *20.9/winattr.height);
 }
