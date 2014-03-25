@@ -1,0 +1,42 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+#include <SDL/SDL.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include "Camera.h"
+#include "Vector.h"
+#include "Collision.h"
+#include "CollisionSphere.h"
+#include "CollisionPlane.h"
+#include "Dummy.h"
+#include <iostream>
+#include <cstdlib>
+
+
+
+class Player
+{
+
+	collisionsphere cs;
+	float lookSpeed;
+	float normalSpeed;
+	public:
+	camera cam;
+	Dummy obj;
+	Player(collisionsphere sphere, float,float);
+	Player();
+	void update(std::vector<collisionplane> cp);
+	void show();
+	collisionsphere getCollisionSphere();
+	camera* getCamera();
+	void setPosition(vector3d pos);
+	float getLookSpeed();
+	float getNormalSpeed();
+	void setLookSpeed(float ls);
+	void setNormalSpeed(float ns);
+	
+	
+	
+
+};
+#endif
